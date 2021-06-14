@@ -78,7 +78,10 @@ class StatFeatures:
                 self.get_mean(),
                 self.get_var(),
                 self.get_pNN_50(),
-                self.get_RMSSD(),]
+                self.get_RMSSD(),
+                self.get_ivr(),
+                self.get_vpr(),
+                self.get_papr()]
 
     '''
     Индекс напряжения регуляторных истем
@@ -143,3 +146,22 @@ class StatFeatures:
 
         return math.sqrt(rmssd / (len(self.__data) - 1))
 
+    '''
+    Индекс вегетативного равновесия
+    '''
+    def get_ivr(self):
+        dRR = (self.__max_rr - self.__min_rr)
+        return self.get_mode_amplitude() / dRR
+
+    '''
+    Вегетативный показатель ритма
+    '''
+    def get_vpr(self):
+        dRR = (self.__max_rr - self.__min_rr)
+        return 1 / (self.get_mode() * dRR)
+
+    '''
+    Показатель адекватности процессов регуляции
+    '''
+    def get_papr(self):
+        return self.get_mode_amplitude() / self.get_mode()
