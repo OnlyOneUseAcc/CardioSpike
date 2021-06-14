@@ -43,7 +43,6 @@ class StatFeatures:
             importance_main_interval = count_main_interval / (count_main_interval + count_next_interval)
             importance_next_interval = count_next_interval / (count_main_interval + count_next_interval)
             point_mode = min_tresh + (importance_main_interval * current_interval_mode + importance_next_interval * next_interval_mode)
-            print(f'Next: {point_mode}')
             return point_mode
 
         if mode_index_interval == len(distribution) - 1:
@@ -53,7 +52,6 @@ class StatFeatures:
             importance_main_interval = count_main_interval / (count_main_interval + count_pred_interval)
             importance_next_interval = count_pred_interval / (count_main_interval + count_pred_interval)
             point_mode = min_tresh + (importance_main_interval * current_interval_mode + importance_next_interval * pred_interval_mode)
-            print(f'Pred: {point_mode}')
             return point_mode
 
         pred_interval_mode = distribution[mode_index_interval - 1]
@@ -62,7 +60,6 @@ class StatFeatures:
         point_mode = min_tresh + self.__interval * (current_interval_mode - pred_interval_mode) \
                      / ((current_interval_mode - pred_interval_mode) + (current_interval_mode + next_interval_mode))
 
-        print(f'Main: {point_mode}')
         return point_mode
 
     def __calc_mode_amplitude(self):
@@ -70,6 +67,18 @@ class StatFeatures:
                                        (self.__data < (self.__start_mode_interval + self.__interval))]
 
         return len(rr_intervals) / len(self.__data)
+
+    '''
+    Полный список полученных признаков
+    '''
+    def get_statistic(self):
+        return [self.get_tension_index(),
+                self.get_mode(),
+                self.get_std(),
+                self.get_mean(),
+                self.get_var(),
+                self.get_pNN_50(),
+                self.get_RMSSD(),]
 
     '''
     Индекс напряжения регуляторных истем
