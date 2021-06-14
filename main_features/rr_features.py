@@ -1,4 +1,5 @@
 import pandas as pd
+import math
 
 
 class StatFeatures:
@@ -10,6 +11,8 @@ class StatFeatures:
         self.__max_rr = self.__data.max()
         self.__interval = (self.__max_rr - self.__min_rr) / self.__count_intervals
 
+        self.__std = data.std()
+        self.__mean = data.mean()
         self.__mode = self.__calc_point_mode()
         self.__mode_amplitude = self.__calc_mode_amplitude()
 
@@ -83,3 +86,27 @@ class StatFeatures:
 
     def get_mode_amplitude(self):
         return self.__mode_amplitude
+
+    def get_std(self):
+        return self.__std
+
+    def get_mean(self):
+        return self.__mean
+
+    def get_var(self):
+        return self.__std / self.__mean * 100
+
+    def get_pNN_50(self):
+        count = 0
+        for index, rr in enumerate(self.__data.iloc[1:]):
+            if abs(rr - self.__data.iloc[index - 1]) > 50:
+                count += 1
+        return count / (len(self.__data) - 1) * 100
+
+    def get_RMSSD(self):
+        rmssd = 0
+        for index, rr in enumerate(self.__data.iloc[1:]):
+            rmssd += (rr - self.__data.iloc[index - 1])**2
+
+        return math.sqrt(rmssd / (len(self.__data) - 1))
+
