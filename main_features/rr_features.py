@@ -81,7 +81,9 @@ class StatFeatures:
                 self.get_RMSSD(),
                 self.get_ivr(),
                 self.get_vpr(),
-                self.get_papr()]
+                self.get_papr(),
+                self.get_idm(),
+                self.get_cat()]
 
     '''
     Индекс напряжения регуляторных истем
@@ -165,3 +167,15 @@ class StatFeatures:
     '''
     def get_papr(self):
         return self.get_mode_amplitude() / self.get_mode()
+
+    '''
+    Индекс дыхательной модуляци
+    '''
+    def get_idm(self):
+        return (0.5 * self.get_RMSSD() / self.get_std()) * 100
+
+    '''
+    Индекс симпато-адреналового тонуса
+    '''
+    def get_cat(self):
+        return self.get_mode_amplitude() / self.get_idm() * 100
