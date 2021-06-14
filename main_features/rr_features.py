@@ -71,6 +71,9 @@ class StatFeatures:
 
         return len(rr_intervals) / len(self.__data)
 
+    '''
+    Индекс напряжения регуляторных истем
+    '''
     def get_tension_index(self):
         if self.__mode == 0:
             return 0
@@ -81,21 +84,39 @@ class StatFeatures:
 
         return tens_index
 
+    ''' 
+    Мода выборки
+    '''
     def get_mode(self):
         return self.__mode
 
+    '''
+    Амплитуда моды (процент значений, попадающих в модальный бин)
+    '''
     def get_mode_amplitude(self):
         return self.__mode_amplitude
 
+    '''
+    Стандартное отклонение
+    '''
     def get_std(self):
         return self.__std
 
+    '''
+    Среднее значений
+    '''
     def get_mean(self):
         return self.__mean
 
+    '''
+    Коэффицент вариации
+    '''
     def get_var(self):
         return self.__std / self.__mean * 100
 
+    '''
+    Процент соседних интервалов отличающихся друг от друга на 50мс
+    '''
     def get_pNN_50(self):
         count = 0
         for index, rr in enumerate(self.__data.iloc[1:]):
@@ -103,6 +124,9 @@ class StatFeatures:
                 count += 1
         return count / (len(self.__data) - 1) * 100
 
+    '''
+    Квадратный корень из средней суммы квадратов разности соседних RR (актуально для коротких записей)
+    '''
     def get_RMSSD(self):
         rmssd = 0
         for index, rr in enumerate(self.__data.iloc[1:]):
